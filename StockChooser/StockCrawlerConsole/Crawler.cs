@@ -7,13 +7,23 @@ namespace StockChooserConsole;
 
 public class Crawler
 {
-    private static readonly HttpClient Client = new HttpClient();
+    private static readonly HttpClient Client = new();
 
-    public async Task<List<Stock>?> Craw()
+    /**
+     * curl -X POST -d 'action=GetShareholdingDetails&stockId=0050' https://www.cmoney.tw/etf/ashx/e210.ashx
+     */
+    public static async Task<List<Stock>?> Craw(string stockId)
     {
-        var request = new HttpRequestMessage(HttpMethod.Post, "https://www.cmoney.tw/etf/ashx/e210.ashx");
+        var request = new HttpRequestMessage(
+            HttpMethod.Post,
+            "https://www.cmoney.tw/etf/ashx/e210.ashx"
+        );
 
-        request.Content = new StringContent("action=GetShareholdingDetails&stockId=0050", Encoding.UTF8, "application/x-www-form-urlencoded");
+        request.Content = new StringContent(
+            $"action=GetShareholdingDetails&stockId={stockId}",
+            Encoding.UTF8,
+            "application/x-www-form-urlencoded"
+        );
 
         var response = await Client.SendAsync(request);
 
