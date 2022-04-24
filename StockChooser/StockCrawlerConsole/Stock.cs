@@ -30,3 +30,16 @@ public class Root
 
     [JsonPropertyName("Date")] public string Date { get; set; }
 }
+
+public class StockCompare : IEqualityComparer<Stock>
+{
+    public bool Equals(Stock x, Stock y)
+    {
+        return string.Equals(x.CommKey, y.CommKey, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public int GetHashCode(Stock obj)
+    {
+        return obj.CommKey.GetHashCode();
+    }
+}
